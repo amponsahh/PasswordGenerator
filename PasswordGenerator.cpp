@@ -34,7 +34,7 @@ int main()
             i--;
         }
     }
-    cout << "Generating a password with " << length << ((stoi(length) >= 2) ? " characters\nHere you go: " : " character\nHere you go: ");
-    cout << "\"" << password << "\"\n\n\n\n";
+    cout << "Generating a password with " << length << ((stoi(length) >= 2) ? " characters\nHere you go:\n" : " character\nHere you go:\n") << password << endl << endl;
+    system("pause");
     return 0;
 }
