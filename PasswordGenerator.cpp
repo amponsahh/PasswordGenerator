@@ -1,40 +1,68 @@
 #include <iostream>
 #include <string>
 #include <random>
+#include <cstdlib>
+#include <cctype>
 using namespace std;
 
 int main()
 {
-    string dictionary = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789!@#$%^&*()_+/?|<>,.;':[]{}\"\\";
-    string length;
-    bool valid;
-
+    string length, repeat, password, dictionary = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ 0123456789!@#$%^&*()_+/?|<>,.;':[]{}\"\\";
+    int n = 0, remainder = 0, x = 0, output = 0, valid = 0, again = 0;
+    
     cout << "dictionary: " << dictionary << endl;
+    srand((unsigned int)time(NULL));
+
     do {
-        cout << "Define password length: ";
-        cin >> length;
-        for (char i : length) {
-            if (isdigit(i)) {
-                valid = true;
+
+        do { // length validation 
+            cout << "Define password length: ";
+            cin >> length;
+            for (char i : length) {
+                if (isdigit(i)) {
+                    valid = 1;
+                }
+                else {
+                    valid = 0;
+                    break;
+                }
+            }
+            cout << length << " is " << ((valid) ? "a valid" : "an invalid") << " whole number!\n";
+        } while (!valid);
+
+
+        //excute code here 
+        n = (int)((dictionary.size() - 1) - 0 + 1);
+        remainder = RAND_MAX % n;
+
+        for (int i = 0; i < stoi(length); i++) {
+            do {
+                x = rand();
+                output = x % n;
+            } while (x >= RAND_MAX - remainder);
+            password += dictionary[(output)];
+        }        
+        cout << "Generating a password with " << length << ((stoi(length) >= 2) ? " characters\nHere you go:\n" : " character\nHere you go:\n") << password << endl;
+
+
+        do { // repetition validation 
+            cout << "Would you like to generate another password? (Y/N): ";
+            cin >> repeat;
+            if (repeat.size() == 1) {
+                valid = ((isalpha(repeat[0]) && ((toupper(repeat[0]) == 'Y') || toupper(repeat[0]) == 'N')) ? 1 : 0);
             }
             else {
-                valid = false;
-                break;
+                valid = 0;
             }
-        }
-        cout << length << " is " << ((valid) ? "a valid" : "an invalid") << " number!\n";
-    } while (!valid);
+            cout << repeat << " is " << ((valid) ? "a valid" : "an invalid") << " input!\n";
+        } while (!valid);
 
-    srand(time(NULL));
-    string password;
-    for (int i = 0; i < stoi(length); i++) {
-        password += dictionary[(0 + (rand() % ((dictionary.size() - 1)) - 0 + 1))];
-        if ((password.size() >= 2) && (password[i] == password[i - 1])) { //unique back 2 back generation
-            password.pop_back();
-            i--;
-        }
-    }
-    cout << "Generating a password with " << length << ((stoi(length) >= 2) ? " characters\nHere you go:\n" : " character\nHere you go:\n") << password << endl << endl;
+        
+        again = (toupper(repeat[0]) == 'Y' ? 1 : 0);
+        cout << "Alright, " << ((again) ? "let's do this again!\n" : "goodbye!\n");
+        password = "";
+    } while (again);
+
     system("pause");
     return 0;
 }
