@@ -48,12 +48,7 @@ int main()
         do { // repetition validation 
             cout << "Would you like to generate another password? (Y/N): ";
             cin >> repeat;
-            if (repeat.size() == 1) {
-                valid = ((isalpha(repeat[0]) && ((toupper(repeat[0]) == 'Y') || toupper(repeat[0]) == 'N')) ? 1 : 0);
-            }
-            else {
-                valid = 0;
-            }
+            valid = (((repeat.size() == 1) && (isalpha(repeat[0])) && ((toupper(repeat[0]) == 'Y') || toupper(repeat[0]) == 'N')) ? 1 : 0);
             cout << repeat << " is " << ((valid) ? "a valid" : "an invalid") << " input!\n";
         } while (!valid);
 
