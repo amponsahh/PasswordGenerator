@@ -41,6 +41,12 @@ int main()
                 output = x % n;
             } while (x >= RAND_MAX - remainder);
             password += dictionary[(output)];
+
+            //unique back 2 back generation
+            if ((password.size() > 1) && (password[static_cast<std::basic_string<char, std::char_traits<char>, std::allocator<char>>::size_type>(i) - 1] == password[i])) {
+                password.pop_back();
+                i--;
+            }
         }        
         cout << "Generating a password with " << length << ((stoi(length) >= 2) ? " characters\nHere you go:\n" : " character\nHere you go:\n") << password << endl;
 
